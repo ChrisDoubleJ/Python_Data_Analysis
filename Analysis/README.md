@@ -25,10 +25,71 @@ For an in-depth analysis of the data analyst job market, I used several key tool
 - **Visual Studio Code:** For developing and executing Python scripts.
 - **Git & GitHub:** For version control and sharing the code and analysis, facilitating collaboration and project tracking.
 
-## Data Preparation and Cleanup
+# Data Preparation and Cleanup
 
 This section outlines the steps taken to prepare and clean the data for analysis, ensuring accuracy and usability.
 
 ---
 
-Feel free to explore the repository to learn more about the data analyst job market and gain insights into in-demand skills and salary trends.
+## Import & Clean Up Data
+
+I start by importing necessary libraries and loading the dataset, followed by initial data cleaning tasks to ensure data quality.
+
+```python
+# Importing Libraries
+import ast
+import pandas as pd
+import seaborn as sns
+from datasets import load_dataset
+import matplotlib.pyplot as plt  
+
+# Loading Data
+dataset = load_dataset('lukebarousse/data_jobs')
+df = dataset['train'].to_pandas()
+
+# Data Cleanup
+df['job_posted_date'] = pd.to_datetime(df['job_posted_date'])
+df['job_skills'] = df['job_skills'].apply(lambda x: ast.literal_eval(x) if pd.notna(x) else x)
+```
+## Filter UK Jobs
+To focus my analysis on the UK job market, I apply filters to the dataset, narrowing down to roles based in the United Kingdom.
+
+```python
+df_UK = df[df['job_country'] == 'United Kingdom']
+df_skills = df_UK.explode('job_skills')
+```
+
+# The Analysis
+Each Jupyter notebook for this project aims to investigate specific aspects of the data job market. Here’s how I approached each question:
+
+## 1. What are the most demanded skills for the top 3 most popular data roles?
+To identify the most demanded skills for the top 3 most popular data roles, I filtered out the positions by popularity and extracted the top 5 skills for these roles. This query highlights the most popular job titles and their top skills, showing which skills are crucial depending on the role I'm targeting.
+
+View my notebook with detailed steps here: [2_Skill_Demand](2_Skills_Demand.ipynb).
+
+## Visualise Data
+Counts of Skills Requested in UK Job Postings
+
+```python
+fig, ax = plt.subplots(len(job_titles), 1, figsize=(10, 15))
+
+for i, job_title in enumerate(job_titles):
+    df_plot = df_skills_perc[df_skills_perc['job_title_short'] == job_title].head(5)
+    sns.barplot(data=df_plot, x='skill_percent', y='job_skills', ax=ax[i], palette='dark:g')
+    ax[i].set_title(job_title)
+    ax[i].set_ylabel('')
+    ax[i].set_xlabel('')
+    ax[i].set_xlim(0, 75)
+    if i != len(job_titles) - 1:
+        ax[i].set_xticks([])
+
+    for n, v in enumerate(df_plot['skill_percent']):
+        ax[i].text(v + 1, n, f'{v:.0f}%', va='center')
+
+fig.suptitle('Likelihood of Skills Requested in UK Job Postings', fontsize=15)
+fig.tight_layout(h_pad=.5)
+plt.show()
+```
+### Results
+#Insert Picture of Likelihood of Skills Requested in UK Job Postings
+
