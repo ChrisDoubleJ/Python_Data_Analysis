@@ -99,5 +99,62 @@ plt.show()
 - Data Engineers require more specialized technical skills (Azure 41%, AWS 33%, Spark 18%) compared to Data Analysts and Data Scientists, who are expected to be proficient in more general data management and analysis tools (Excel 41%, Power BI 27%, Tableau 16%).
 - Python is a versatile skill, highly demanded across all three roles, but most prominently for Data Scientists (69%) and Data Engineers (55%).
 
-## 1. How are in-demand skills trending for Data Analysts?
+## 2. How are in-demand skills trending for Data Analysts in 2023?
+
+Using data from job postings for data analyst positions, the top skills were identified and tracked throughout 2023. The results reveal insights into how the demand for these skills has shifted over the year.
+
+### Insights:
+- SQL: This skill has remained the most consistently demanded throughout the year, despite a slight decline towards the end.
+- Excel: Demonstrated steady demand with minor fluctuations, maintaining its position as a critical skill for data analysts.
+- Python: Saw an increase in demand towards the latter part of the year, indicating growing importance.
+- Power BI: Experienced a notable rise in demand, especially in the final months of 2023.
+- Tableau: Despite being essential, its demand has been relatively stable with some variability.
+
+## Visualise Data
+The line plot illustrates the likelihood of job postings mentioning each skill by month, providing a clear view of the trends over 2023.
+
+Code Snippet for Visualization:
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.ticker import PercentFormatter
+
+# Assuming df_DA_UK_percent is a DataFrame with the necessary data
+df_plot = df_DA_UK_percent.iloc[:, :5]
+line_palette = sns.color_palette('tab10', n_colors=len(df_plot.columns))
+
+sns.lineplot(data=df_plot, dashes=False, palette=line_palette)
+sns.set_theme(style='ticks')
+sns.despine()  # remove top and right spines
+
+plt.title('Trending Top Skills for Data Analysts in the UK')
+plt.ylabel('Likelihood in Job Posting')
+plt.xlabel('2023')
+plt.legend().remove()
+plt.gca().yaxis.set_major_formatter(PercentFormatter(decimals=0))
+
+# Sort the final values to adjust the labels' y positions to avoid overlap
+sorted_indices = df_plot.iloc[-1].sort_values(ascending=False).index
+y_offsets = [0.7 * i for i in range(len(sorted_indices))]  # Adjust the offset as necessary
+
+# Annotate the plot with the top 5 skills
+for i, (column_name, offset) in enumerate(zip(sorted_indices, y_offsets)):
+    line_color = line_palette[df_plot.columns.get_loc(column_name)]
+    plt.text(
+        x=11.2,  # Position to the right end of the plot
+        y=df_plot[column_name].iloc[-1] - offset,  # Adjust y position with offset
+        s=column_name,  # Skill name
+        color=line_color,  # Match text color to line color
+        fontsize=12  # Adjust the font size as needed
+    )
+
+plt.show()
+```
+
+### Results
+#Insert Picture of Trending Top Skills for Data Analysts in the UK
+Bar graph visualszing the trending top skills for data analysts in the UK in 2023.
+
+
 
