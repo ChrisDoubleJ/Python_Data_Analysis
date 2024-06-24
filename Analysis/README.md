@@ -120,13 +120,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from matplotlib.ticker import PercentFormatter
 
-# Assuming df_DA_UK_percent is a DataFrame with the necessary data
 df_plot = df_DA_UK_percent.iloc[:, :5]
 line_palette = sns.color_palette('tab10', n_colors=len(df_plot.columns))
 
 sns.lineplot(data=df_plot, dashes=False, palette=line_palette)
 sns.set_theme(style='ticks')
-sns.despine()  # remove top and right spines
+sns.despine()
 
 plt.title('Trending Top Skills for Data Analysts in the UK')
 plt.ylabel('Likelihood in Job Posting')
@@ -134,11 +133,9 @@ plt.xlabel('2023')
 plt.legend().remove()
 plt.gca().yaxis.set_major_formatter(PercentFormatter(decimals=0))
 
-# Sort the final values to adjust the labels' y positions to avoid overlap
 sorted_indices = df_plot.iloc[-1].sort_values(ascending=False).index
 y_offsets = [0.7 * i for i in range(len(sorted_indices))]  # Adjust the offset as necessary
 
-# Annotate the plot with the top 5 skills
 for i, (column_name, offset) in enumerate(zip(sorted_indices, y_offsets)):
     line_color = line_palette[df_plot.columns.get_loc(column_name)]
     plt.text(
@@ -155,6 +152,8 @@ plt.show()
 ### Results
 #Insert Picture of Trending Top Skills for Data Analysts in the UK
 Bar graph visualszing the trending top skills for data analysts in the UK in 2023.
+
+## 2. How well do jobs and skills pay for Data Analysts?
 
 
 
