@@ -93,3 +93,11 @@ plt.show()
 ### Results
 #Insert Picture of Likelihood of Skills Requested in UK Job Postings
 
+### Insights:
+
+- SQL is the most requested skill for Data Analysts and Data Engineers, with it appearing in 43% and 60% of job postings, respectively. For Data Scientists, Python is the most sought-after skill, appearing in 69% of job postings.
+- Data Engineers require more specialized technical skills (Azure 41%, AWS 33%, Spark 18%) compared to Data Analysts and Data Scientists, who are expected to be proficient in more general data management and analysis tools (Excel 41%, Power BI 27%, Tableau 16%).
+- Python is a versatile skill, highly demanded across all three roles, but most prominently for Data Scientists (69%) and Data Engineers (55%).
+
+## 1. How are in-demand skills trending for Data Analysts?
+
